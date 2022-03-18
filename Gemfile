@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.6.6'
+ruby '2.7.4' #'2.6.6'
 gem 'rails', '4.2.11'
 
 
@@ -9,16 +9,26 @@ gem 'uglifier', '>= 2.7.1'
 
 gem 'jquery-rails'
 
+gem 'bigdecimal', '1.3.5'
+gem 'debug_inspector'
+
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
+end
+
+group :test do 
+  gem 'cucumber-rails-training-wheels' # some pre-fabbed step definitions  
+  gem 'database_cleaner' # to clear Cucumber's test database between runs
+  gem 'capybara'         # lets Cucumber pretend to be a web browser
+  gem 'launchy'          # a useful debugging aid for user stories
 end
 
 # for Heroku deployment - as described in Ap. A of ELLS book
 group :development, :test do
   gem 'byebug'
   gem 'database_cleaner'
-  gem 'cucumber-rails', require: false
+  gem 'cucumber-rails', require: false # or :require => false
   gem 'rspec-rails'
 
   gem 'pry'

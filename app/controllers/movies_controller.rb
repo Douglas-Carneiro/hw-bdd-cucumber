@@ -46,6 +46,10 @@ class MoviesController < ApplicationController
   end
 
   private
+  
+  def movie_params
+    params.require(:movie).permit(:title, :rating, :description, :release_date)
+  end
 
   def force_index_redirect
     if !params.key?(:ratings) || !params.key?(:sort_by)
