@@ -25,12 +25,45 @@ end
 #  "When I uncheck the following ratings: PG, G, R"
 #  "When I check the following ratings: G"
 
-When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
+When /I check the "([^"]*)" checkbox/ do |field|
+  check(field)
+end
+
+When /I check the following ratings: (.*)/ do |rating_list|
   # HINT: use String#split to split up the rating_list, then
   #   iterate over the ratings and reuse the "When I check..." or
   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
-  pending "Fill in this step in movie_steps.rb"
+  rating_list.split.each do |s| 
+    s = "ratings_"+s
+    check(s)
+  end
 end
+
+When /I check all the ratings/ do
+  rating_list = ["G", "R", "PG", "PG-13"]
+  rating_list.each do |s| 
+    s = "ratings_"+s
+    check(s)
+  end
+end
+
+When /I uncheck the following ratings: (.*)/ do |rating_list|
+  rating_list.split.each do |s| 
+    s = "ratings_"+s
+    uncheck(s)
+  end
+end
+
+When /I click on "([^"]*)"/ do |button|
+  click_button(button)
+end
+
+# When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
+#   # HINT: use String#split to split up the rating_list, then
+#   #   iterate over the ratings and reuse the "When I check..." or
+#   #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
+#   pending "Fill in this step in movie_steps.rb"
+# end
 
 # Part 2, Step 3
 Then /^I should (not )?see the following movies: (.*)$/ do |no, movie_list|
@@ -38,9 +71,22 @@ Then /^I should (not )?see the following movies: (.*)$/ do |no, movie_list|
   pending "Fill in this step in movie_steps.rb"
 end
 
+Then /^I should see movies with the following ratings: (.*)$/ do |ratings|
+  ratings.split.each do |rating|
+    expect(page.all("td."+rating+"_rated", visible: true).size).to be > 0
+  end
+end
+
+Then /^I should not see movies with the following ratings: (.*)$/ do |ratings|
+  ratings.split.each do |rating|
+    expect(page.all("td."+rating+"_rated", visible: true)).to be_empty
+  end
+end
+
 Then /I should see all the movies/ do
-  # Make sure that all the movies in the app are visible in the table
-  pending "Fill in this step in movie_steps.rb"
+  expect(page.all("#movies tbody tr").size).to eq(10)
+  # another way of testing the number of rows in the table
+  expect(page.assert_selector('#movies tbody tr', count: 10)).to be true
 end
 
 ### Utility Steps Just for this assignment.
