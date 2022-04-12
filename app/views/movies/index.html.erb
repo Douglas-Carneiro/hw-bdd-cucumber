@@ -52,3 +52,12 @@
   </tbody>
 </table>
 <%= link_to 'Add new movie', new_movie_path, class: 'btn btn-primary' %>
+
+<h3>Search TMDb for a movie</h3>
+<%= form_tag search_tmdb_path do %>
+  <div class="form-group">
+    <input type="text" name="Search Terms" autocomplete="off"
+           class="form-control "/>
+    <input type="submit" value="Search TMDb" class="btn btn-primary"/>
+  </div>
+<% end %>

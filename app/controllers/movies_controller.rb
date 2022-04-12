@@ -45,6 +45,12 @@ class MoviesController < ApplicationController
     redirect_to movies_path
   end
 
+  def search_tmdb
+    # byebug
+    flash[:warning] = "'#{params["Search Terms"]}' was not found in TMDb."
+    redirect_to movies_path
+  end
+
   private
   
   def movie_params
