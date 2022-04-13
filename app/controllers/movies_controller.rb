@@ -46,9 +46,14 @@ class MoviesController < ApplicationController
   end
 
   def search_tmdb
-    # byebug
-    flash[:warning] = "'#{params["Search Terms"]}' was not found in TMDb."
-    redirect_to movies_path
+    result = Tmdb::Movie.find(params["Search Terms"])
+    if result.length > 0
+      params[:movie] = {:title => result[0].title, :release_date => result[0].release_date}
+      redirect_to new_movie_path(params[:movie])
+    else
+      flash[:warning] = "'#{params["Search Terms"]}' was not found in TMDb."
+      redirect_to movies_path
+    end
   end
 
   private

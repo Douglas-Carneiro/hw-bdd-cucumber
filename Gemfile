@@ -11,6 +11,7 @@ gem 'jquery-rails'
 
 gem 'bigdecimal', '1.3.5'
 gem 'debug_inspector'
+gem 'themoviedb'
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
